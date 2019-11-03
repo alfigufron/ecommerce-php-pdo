@@ -1,0 +1,42 @@
+body{font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif!important}
+
+/* Background */
+.bg-gray1{background-color: #1e272e;}
+.bg-white1{background-color: #d2dae2;}
+.bg-white2{background-color: #747d8c;}
+
+/* Navbar */
+.nav-menu{white-space: nowrap;}
+
+/* Slide Image */
+.carousel-size{max-height: 664px!important;width: 100%;}
+.carousel-indicators li{width: 10px!important;height: 10px!important;border-radius: 100%;}
+
+/* Category */
+.category{text-align: center;padding: 20px 0px;cursor: default;padding-bottom: 100px;}
+.category ul li a{color: #808e9b;padding: 5px 20px;}
+.category ul li a:hover{color: #1e272e;text-decoration: none;}
+
+/* Category Menu */
+.list-category a, .list-category a:visited{position: relative;}
+.list-category a:after, .list-category a:visited:after{content: "";height: 2px;position: absolute;bottom: 0;left: 0;width: 0%;background: #1e272e;transition: 0.2s;}
+.list-category a:hover:after, .list-category a:visited:hover:after{width: 100%;}
+
+/* Product */
+.product-image{max-width: 300px;max-height: 300px;background-color: white;transition: 0.3s;}
+.product-image a img{object-fit: contain;width: 300px;height: 300px;margin-bottom: 5px;}
+.product-image:hover{-webkit-transform: scale(1.1);-ms-transform: scale(1.1);transform: scale(1.1);transition: 0.3s;}
+.product-image a{text-decoration: none;color: black;font-weight: bold;font-size: 14px;transition: 0.5s;}
+.product-image a:hover{text-decoration: none;color: #ff9f1a;transition: 0.5s;}
+.product-image p{font-weight: bold;color: #ff9f1a;}
+.storage-brand{margin-bottom: 100px;}
+
+/* Footer */
+.brand-footer{text-align: center;padding:20px 0px;}
+.brand-footer img{width: 200px;height: 200px;margin-right: 4px;}
+.brand-footer h3{font-weight: bolder;margin-top: 0px;font-size: 30px;color: white;}
+.brand-footer p{color: white;margin-top: 30px;}
+.social-media ul li a{color: #a4b0be;}
+.social-media ul li a:hover{color: #a4b0be;text-decoration: none;}
+.social-media ul li a img{width: 18px;height: 18px;}
+.social-list{white-space: nowrap;}
