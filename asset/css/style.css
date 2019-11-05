@@ -4,6 +4,8 @@ body{font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif!important}
 .bg-gray1{background-color: #1e272e;}
 .bg-white1{background-color: #d2dae2;}
 .bg-white2{background-color: #747d8c;}
+.bg-white3{background-color: #ffffff;}
+.bg-desc{background-image: url('../img/background/bg.jpg');height: auto;background-repeat: no-repeat;background-size: cover;}
 
 /* Navbar */
 .nav-menu{white-space: nowrap;}
@@ -11,6 +13,9 @@ body{font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif!important}
 /* Slide Image */
 .carousel-size{max-height: 664px!important;width: 100%;}
 .carousel-indicators li{width: 10px!important;height: 10px!important;border-radius: 100%;}
+
+.news h3{padding: 40px 0px 10px 0px;font-weight: 600;}
+/* .news p{padding: 0px 40px;} */
 
 /* Category */
 .category{text-align: center;padding: 20px 0px;cursor: default;padding-bottom: 100px;}
@@ -40,3 +45,12 @@ body{font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif!important}
 .social-media ul li a:hover{color: #a4b0be;text-decoration: none;}
 .social-media ul li a img{width: 18px;height: 18px;}
 .social-list{white-space: nowrap;}
+
+/* Form Login */
+.form-login{display: flex;padding-top: 40px;justify-content: center;}
+/* .head-login{width: 600px;height: 420px;background-color: black;} */
+.carousel-size-login{width: 700px!important;height: 520px!important;border-radius: 8px 0px 0px 8px;}
+.body-login{width: 400px;height: 520px;border-radius: 0px 8px 8px 0px;text-align: center;}
+.body-login h3{color: #ffffff;font-weight: bold;text-align: center;margin-top: 30px;cursor: default;margin-bottom: 50px;}
+
+.input-login{width: 350px;;background-color: #1e272e;border: none;border-bottom: 1px white solid;color: white;padding: 8px 5px;margin-top: 20px;}
