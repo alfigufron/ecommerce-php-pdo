@@ -15,7 +15,6 @@
     <script src="asset/js/jquery.js"></script>
 </head>
 <body>
-
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-gray1">
         <div class="container">
@@ -53,7 +52,6 @@
                         </div>
                     </li>
                 </ul>
-
                 <?php if(empty($_SESSION['code'])) { ?>
                 <!-- Before Log In -->
                 <ul class="navbar-nav ml-auto">
@@ -101,54 +99,60 @@
         </div>
     </nav>
     
-    <!-- SLide Image -->
-    <div id="my-carousel" class="carousel slide" data-ride="carousel">
-        <!-- Slide Indicator -->
-        <ol class="carousel-indicators">
-            <li class="active" data-target="#my-carousel" data-slide-to="0" aria-current="location"></li>
-            <li data-target="#my-carousel" data-slide-to="1"></li>
-            <li data-target="#my-carousel" data-slide-to="1"></li>
-        </ol>
-        <div class="carousel-inner carousel-size">
-            <div class="carousel-item active">
-                <img class="d-block w-100" src="asset/img/slide/1.jpg" alt="">
-            </div>
-            <div class="carousel-item">
-                <img class="d-block w-100" src="asset/img/slide/2.jpg" alt="">
-            </div>
-            <div class="carousel-item">
-                <img class="d-block w-100" src="asset/img/slide/3.jpg" alt="">
-            </div>
+    <div class="content-cart text-center">
+        <h2>Shopping Cart</h2>
+
+        <?php if(empty($_SESSION['code'])) { ?>
+        <div class="empty-cart">
+            <h4>You must login first!</h4>
+            <a href="auth/login.php" class="pb-5">Log In</a>
         </div>
-        <a class="carousel-control-prev" href="#my-carousel" data-slide="prev" role="button">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#my-carousel" data-slide="next" role="button">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
-    </div>  
+        <?php } ?>
 
-    <!-- Menu -->
-    <div class="content">
-    
+        <?php if(isset($_SESSION['code'])) { ?>
+        <table class="table table-cart">
+            <thead class="thead-dark">
+                <tr>
+                <th scope="col">No</th>
+                <th scope="col">Product</th>
+                <th scope="col">Price</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Option</th>
+                </tr>
+            </thead>
+        <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>CANVAS SUEDE TRUCKER BLACK</td>
+                <td>IDR 225.000</td>
+                <td>1</td>
+                <td>
+                    <button class="btn btn-danger">Delete</button>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">1</th>
+                <td>CANVAS SUEDE TRUCKER BROWN</td>
+                <td>IDR 215.000</td>
+                <td>1</td>
+                <td>
+                    <button class="btn btn-danger">Delete</button>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">1</th>
+                <td>CANVAS SUEDE TRUCKER LIGHT BROWN</td>
+                <td>IDR 200.000</td>
+                <td>1</td>
+                <td>
+                    <button class="btn btn-danger">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+        </table>
+        <?php } ?>
     </div>
-    
-    <script>
-        $(document).ready(function() {
-            $('.click-page').click(function() {
-                var menu = $(this).attr('id');
-                if(menu == "home"){
-                    $('.content').load('home.php');
-                }
-            });
 
-            $('.content').load('home.php');
-        });
-    </script>
-    
-    
     <!-- Footer -->
     <div class="container-fluid brand-footer bg-gray1">
         <img src="asset/img/logo.png" alt="">

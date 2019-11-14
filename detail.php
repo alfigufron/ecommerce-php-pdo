@@ -1,6 +1,3 @@
-<?php
-    require ('config/conn.php');
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,7 +12,6 @@
     <script src="asset/js/jquery.js"></script>
 </head>
 <body>
-
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-gray1">
         <div class="container">
@@ -53,8 +49,6 @@
                         </div>
                     </li>
                 </ul>
-
-                <?php if(empty($_SESSION['code'])) { ?>
                 <!-- Before Log In -->
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
@@ -75,80 +69,84 @@
                         </div>
                     </li>
                 </ul>
-                <?php } if(isset($_SESSION['code'])) { ?>
                 <!-- After Login -->
-                <ul class="navbar-nav ml-auto">
+                <!-- <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <!-- <div class="nav-menu">
+                        <div class="nav-menu">
                             <a class="nav-link" href="auth/register.php">
-                                
+                                <img src="asset/img/profile-icon.png" width="20" height="20" alt="">
                                 <span class="username-profile">user</span>
                             </a>
-                        </div> -->
-                        <div class="dropdown">
-                            <button class="btn dropdown-toggle text-light" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img src="asset/img/profile-icon.png" width="20" height="20" alt=""> User
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="#">Detail Account</a>
-                                <a class="dropdown-item" href="logout.php">Log Out</a>
-                            </div>
                         </div>
                     </li>
-                </ul>
-                <?php } ?>
+                </ul> -->
             </div>
         </div>
     </nav>
-    
-    <!-- SLide Image -->
-    <div id="my-carousel" class="carousel slide" data-ride="carousel">
-        <!-- Slide Indicator -->
-        <ol class="carousel-indicators">
-            <li class="active" data-target="#my-carousel" data-slide-to="0" aria-current="location"></li>
-            <li data-target="#my-carousel" data-slide-to="1"></li>
-            <li data-target="#my-carousel" data-slide-to="1"></li>
-        </ol>
-        <div class="carousel-inner carousel-size">
-            <div class="carousel-item active">
-                <img class="d-block w-100" src="asset/img/slide/1.jpg" alt="">
+
+    <!-- Detail Produk -->
+    <div class="content-detail">
+        <div class="detail-inner">
+            <div class="image-detail">
+                <img src="asset/img/storage/clothing_1.jpg" alt="">
             </div>
-            <div class="carousel-item">
-                <img class="d-block w-100" src="asset/img/slide/2.jpg" alt="">
-            </div>
-            <div class="carousel-item">
-                <img class="d-block w-100" src="asset/img/slide/3.jpg" alt="">
+            <div class="desc-detail">
+                <h1>CANVAS SUEDE TRUCKER BLACK</h1>
+                <p id="cost">IDR 225.000</p>
+                <p class="desc-text">
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text 
+                    ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived 
+                    not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 
+                    1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like 
+                    Aldus PageMaker including versions of Lorem Ipsum.
+                </p>
+                <div class="desc-2">
+                    <div class="list-size">
+                        <span class="text-light font-weight-bold">Size :</span>
+                        <ul>
+                            <li>S : 63cm x 49cm</li>
+                            <li>M : 65cm x 52cm</li>
+                            <li>L : 67cm x 54cm</li>
+                            <li>XL : 69cm x 56cm</li>
+                            <li>XXL : 71cm x 58cm</li>
+                        </ul>
+                    </div>
+                    <div class="detail-2">
+                        <span class="text-light font-weight-bold">Detail :</span>
+                        <ul>
+                            <li>Material : Canvas Sueding</li>
+                            <li>Color : Black</li>
+                            <li>Price : 225.000 IDR</li>
+                        </ul>
+                    </div>
+                </div>
+                <button class="btn btn-warning" type="button" data-toggle="modal" data-target="#exampleModal">Add to Cart</button>
+
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title font-weight-bold" id="exampleModalLabel">CANVAS SUEDE TRUCKER BLACK</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                Test
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Back</button>
+                                <button type="button" class="btn btn-dark">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
-        <a class="carousel-control-prev" href="#my-carousel" data-slide="prev" role="button">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#my-carousel" data-slide="next" role="button">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
-    </div>  
-
-    <!-- Menu -->
-    <div class="content">
-    
+        
     </div>
-    
-    <script>
-        $(document).ready(function() {
-            $('.click-page').click(function() {
-                var menu = $(this).attr('id');
-                if(menu == "home"){
-                    $('.content').load('home.php');
-                }
-            });
 
-            $('.content').load('home.php');
-        });
-    </script>
-    
-    
     <!-- Footer -->
     <div class="container-fluid brand-footer bg-gray1">
         <img src="asset/img/logo.png" alt="">

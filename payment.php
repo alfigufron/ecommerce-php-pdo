@@ -53,7 +53,6 @@
                         </div>
                     </li>
                 </ul>
-
                 <?php if(empty($_SESSION['code'])) { ?>
                 <!-- Before Log In -->
                 <ul class="navbar-nav ml-auto">
@@ -100,55 +99,49 @@
             </div>
         </div>
     </nav>
-    
-    <!-- SLide Image -->
-    <div id="my-carousel" class="carousel slide" data-ride="carousel">
-        <!-- Slide Indicator -->
-        <ol class="carousel-indicators">
-            <li class="active" data-target="#my-carousel" data-slide-to="0" aria-current="location"></li>
-            <li data-target="#my-carousel" data-slide-to="1"></li>
-            <li data-target="#my-carousel" data-slide-to="1"></li>
-        </ol>
-        <div class="carousel-inner carousel-size">
-            <div class="carousel-item active">
-                <img class="d-block w-100" src="asset/img/slide/1.jpg" alt="">
-            </div>
-            <div class="carousel-item">
-                <img class="d-block w-100" src="asset/img/slide/2.jpg" alt="">
-            </div>
-            <div class="carousel-item">
-                <img class="d-block w-100" src="asset/img/slide/3.jpg" alt="">
-            </div>
+
+    <div class="content-cart text-center">
+        <h2>Payments</h2>
+        <?php if(empty($_SESSION['code'])) { ?>
+            <div class="empty-cart">
+            <h4>You must login first!</h4>
+            <a href="auth/login.php" class="pb-5">Log In</a>
         </div>
-        <a class="carousel-control-prev" href="#my-carousel" data-slide="prev" role="button">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#my-carousel" data-slide="next" role="button">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
-    </div>  
+        <?php } ?>
 
-    <!-- Menu -->
-    <div class="content">
-    
+        <?php if(isset($_SESSION['code'])) { ?>
+        <table class="table table-cart">
+            <thead class="thead-dark">
+                <tr>
+                <th scope="col">No</th>
+                <th scope="col">Transaction Code</th>
+                <th scope="col">Product</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Price</th>
+                <th scope="col">Address</th>
+                <th scope="col">Proof</th>
+                <th scope="col">Payment</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>12345678</td>
+                    <td>CANVAS SUEDE TRUCKER BLACK</td>
+                    <td>1</td>
+                    <td>IDR 215.000</td>
+                    <td>Di rumah</td>
+                    <td>
+                        <input type="file" name="" id="">
+                    </td>
+                    <td>Belum Bayar</td>
+                </tr>
+            </tbody>
+        </table>
+        <?php }  ?>
+
     </div>
-    
-    <script>
-        $(document).ready(function() {
-            $('.click-page').click(function() {
-                var menu = $(this).attr('id');
-                if(menu == "home"){
-                    $('.content').load('home.php');
-                }
-            });
 
-            $('.content').load('home.php');
-        });
-    </script>
-    
-    
     <!-- Footer -->
     <div class="container-fluid brand-footer bg-gray1">
         <img src="asset/img/logo.png" alt="">

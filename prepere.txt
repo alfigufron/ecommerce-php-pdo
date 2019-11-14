@@ -10,6 +10,11 @@ phone_number = varchar 14
 address = text
 picture = text
 
+tbl_admin
+id = AI (Primary)
+username = varchar 64
+password = varchar 64
+
 tbl_goods
 id = AI (Primary)
 code = int 10

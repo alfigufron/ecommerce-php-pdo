@@ -1,3 +1,17 @@
+<?php
+    require ('../config/conn.php');
+    if(isset($_POST['login'])) {
+        $user = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
+        $pw = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
+        $def = new DB();
+        $add = $def->login($user, $pw);
+        if(isset($_SESSION['code'])){
+            header("location:../index.php?unique=".$_SESSION['code']);
+        }else{
+            header("location:login.php");
+        }
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,47 +45,12 @@
                             </a>
                         </div>
                     </li>
-                    <li class="nav-item">
-                        <div class="nav-menu">
-                            <a class="nav-link d-inline-flex" href="#">
-                                <img src="../asset/img/calendar-button.png" width="20" height="20" alt="" class="mr-2">
-                                Event
-                            </a>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <div class="nav-menu">
-                            <a class="nav-link d-inline-flex" href="#">
-                                <img src="../asset/img/cart-button.png" width="20" height="20" alt="" class="mr-2">
-                                Cart
-                            </a>
-                        </div>
-                    </li>
-                </ul>
-                <ul class="navbar-nav ml-auto">
-                    <!-- <li class="nav-item">
-                        <div class="nav-menu">
-                            <a class="nav-link" href="#">
-                                <img src="../asset/img/login-button.png" width="15" height="15" alt="">
-                                Log In
-                            </a>
-                        </div>
-                    </li>
-                    <li><a class="nav-link disabled" data-toggle="collapse">|</a></li>
-                    <li class="nav-item">
-                        <div class="nav-menu">
-                            <a class="nav-link" href="#">
-                                <img src="../asset/img/login-button.png" width="15" height="15" alt="">
-                                Register
-                            </a>
-                        </div>
-                    </li> -->
                 </ul>
             </div>
         </div>
     </nav>
-    
-    <div class="container-fluid">
+
+    <div class="container-fluid login-class">
         <div class="form-login">
             <div class="head-login">
                 <div id="my-carousel" class="carousel slide" data-ride="carousel">
@@ -103,14 +82,63 @@
             </div>
             <div class="body-login bg-gray1">
                 <h3>Log In</h3>
-                <div class="form-group">
-                    <input id="my-input" class="input-login" type="text" name="" placeholder="Username">
-                </div>
-                <div class="form-group">
-                    <input id="my-input" class="input-login" type="password" name="" placeholder="Password">
-                </div>
-                
+                <form action="" method="post">
+                    <div class="form-group">
+                        <input id="my-input" class="input-login" type="text" name="username" placeholder="Username">
+                    </div>
+                    <div class="form-group">
+                        <input id="my-input" class="input-login" type="password" name="password" placeholder="Password">
+                    </div>
+                    <div class="register-class" >
+                        <span class="register">Don't have any account?</span>
+                        <a href="register.php">Register</a>
+                    </div>
+                    <div>
+                        <input type="submit" name="login" class="btn-login float-none" value="Log In">
+                    </div>
+                </form>
+                <span class="desc-login text-light">© 2019 Your Company. All Rights Reserved</span>
             </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="container-fluid brand-footer bg-gray1">
+        <img src="../asset/img/logo.png" alt="">
+        <h3>Project 1</h3>
+        <p>© 2019 Your Company. All Rights Reserved. Designed By Gufron</p>
+        <!-- Social Media -->
+        <div class="container social-media">
+            <ul class="list-unstyled d-flex justify-content-around pt-3">
+                <li>
+                    <div class="social-list">
+                        <a href="#" class="d-inline-block">
+                            <img src="../asset/img/whatsapp-icon-2.png" alt="">Whatsapp
+                        </a>
+                    </div>
+                </li>
+                <li>
+                    <div class="social-list">
+                        <a href="#" class="d-inline-block">
+                            <img src="../asset/img/twitter-icon-2.png" alt="">Twitter
+                        </a>
+                    </div>
+                </li>
+                <li>
+                    <div class="social-list">
+                        <a href="#" class="d-inline-block">
+                            <img src="../asset/img/facebook-icon-2.png" alt="">Facebook
+                        </a>
+                    </div>
+                </li>
+                <li>
+                    <div class="social-list">
+                        <a href="#" class="d-inline-block">
+                            <img src="../asset/img/instagram-icon-2.png" alt="">Instagram
+                        </a>
+                    </div>
+                </li>
+            </ul>
         </div>
     </div>
 
