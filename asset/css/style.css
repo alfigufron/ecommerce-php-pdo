@@ -108,5 +108,8 @@ input[type=number]{-moz-appearance: textfield;}
 .click{cursor: pointer;}
 
 /* User Page Admin */
-.content-data-user h3{text-align: center;font-weight: bold;text-transform: uppercase;}
+.content-user h3{text-align: center;font-weight: bold;text-transform: uppercase;}
 .btn-option{margin: 0.1px;}
+
+/* Inventory Page Admin */
+.content-inventory h3{text-align: center;font-weight: bold;text-transform: uppercase;}
