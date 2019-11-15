@@ -1,14 +1,14 @@
 <?php
     require ('../config/conn.php');
     if(isset($_POST['login'])) {
-        $useradmin = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
-        $pwadmin = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
+        $user = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
+        $pw = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
         $def = new DB();
-        $add = $def->loginadmin($useradmin, $pwadmin);
-        if(isset($_SESSION['codeadm'])){
-            header("location:dashboard.php?verify=".$_SESSION['codeadm']);
+        $add = $def->loginadmin($user, $pw);
+        if(isset($_SESSION['code'])){
+            header("location:dashboard.php?verify=".$_SESSION['code']);
         }else {
-            header("location:index.php");
+            header("location:index.php?gagal");
         }
     }
 ?>
@@ -33,7 +33,6 @@
         <div class="login-logo">
             <a href="#"><b>Admin</b></a>
         </div>
-        <?= $_SESSION['codeadm']; ?>
         <div class="card">
             <div class="card-body login-card-body">
             <p class="login-box-msg">Sign in to start your session</p>

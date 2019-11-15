@@ -97,11 +97,16 @@ input[type=number]{-moz-appearance: textfield;}
 .content-cart h2{font-weight: bold;margin-top: 30px;}
 #logo-cart{width: 70px;}
 .header-cart{white-space: nowrap;}
-
 .empty-cart{margin-top: 80px;padding-bottom: 40px;}
 .table-cart{margin-top: 80px;}
-
 .upload-pict p{color: white;}
+
+/* Page Admin */
 .dashboard h1{position: absolute;left: 55%;top: 40%;}
 .logo-admin{margin-left: 38px}
 .main-sidebar{background-color: #2f3640!important}
+.click{cursor: pointer;}
+
+/* User Page Admin */
+.content-data-user h3{text-align: center;font-weight: bold;text-transform: uppercase;}
+.btn-option{margin: 0.1px;}

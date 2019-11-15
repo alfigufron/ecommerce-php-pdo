@@ -17,7 +17,7 @@
     <div class="wrapper">
 
         <!-- Navbar -->
-        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+        <nav class="main-header navbar navbar-expand navbar-dark navbar-dark">
             
         <!-- Left navbar links -->
             <ul class="navbar-nav">
@@ -34,7 +34,7 @@
         <!-- Close Navbar -->
 
         <!-- Main Sidebar Container -->
-        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <aside class="main-sidebar sidebar-dark-primary bg-navy elevation-4">
             
             <!-- Brand Logo -->
             <a href="index3.html" class="brand-link">
@@ -60,6 +60,12 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         
                         <!-- User Menu -->
+                        <li class="nav-item has-treeview">
+                            <a id="dashboard" class="nav-link click">
+                                <i class="nav-icon fas fa-home"></i>
+                                <p>Dashboard</p>
+                            </a>
+                        </li>
                         <li class="nav-item has-treeview ">
                             <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-user"></i>
@@ -70,19 +76,19 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a id="add-user" class="nav-link click">
                                         <i class="fas fa-plus nav-icon"></i>
                                         <p>Add Data</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a id="data-user" class="nav-link click">
                                         <i class="fas fa-file-alt nav-icon"></i>
                                         <p>Data</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a id="payment" class="nav-link click">
                                         <i class="fas fa-money-bill nav-icon"></i>
                                         <p>
                                             Payment
@@ -91,7 +97,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a id="transaction" class="nav-link click">
                                         <i class="fas fa-money-check-alt nav-icon"></i>
                                         <p>Transaction</p>
                                     </a>
@@ -110,13 +116,13 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a id="add-inventory" class="nav-link click">
                                         <i class="fas fa-plus nav-icon"></i>
                                         <p>Add Data</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a id="data-inventory" class="nav-link click">
                                         <i class="fas fa-file-alt nav-icon"></i>
                                         <p>Data</p>
                                     </a>
@@ -135,7 +141,7 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a id="slide-show" class="nav-link click">
                                         <i class="fas fa-images nav-icon"></i>
                                         <p>Slide Show</p>
                                     </a>
@@ -154,7 +160,7 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a id="social-media" class="nav-link click">
                                         <i class="fas fa-plus nav-icon"></i>
                                         <p>Social Media</p>
                                     </a>
@@ -178,8 +184,10 @@
                             <h1 class="m-0 text-dark font-weight-bold">Dashboard</h1>
                         </div>
                         <div class="col-sm-6">
-                            <ol class="breadcrumb float-sm-right">
+                            <ol class="breadcrumb float-sm-right url-dashboard">
                                 <li class="breadcrumb-item">Dashboard</li>
+                                <!-- <li class="breadcrumb-item">User</li>
+                                <li class="breadcrumb-item active">Add User</li> -->
                             </ol>
                         </div>
                     </div>
@@ -190,7 +198,7 @@
             <!-- Main content -->
             <div class="content">
                 <div class="container-fluid">
-                    
+                    <!-- <h1>Hi, Admin!</h1> -->
                 </div>
             </div>
             <!-- Close content -->
@@ -198,7 +206,7 @@
         <!-- Close Content -->
 
         <!-- Footer -->
-        <footer class="main-footer">
+        <footer class="main-footer bg-gray-dark">
             <div class="float-right d-none d-sm-inline">
                 Designed by Gufron
             </div>
@@ -214,4 +222,51 @@
     <script src="../asset/js/bootstrap.min.js"></script>
     <script src="../asset/js/popper.min.js"></script>
 </body>
+    <script>
+        $(document).ready(function() {
+            $('.click').click(function() {
+                let sidebar = $(this).attr('id');
+                if(sidebar == "dashboard"){
+                    $('.content').load('home.php');
+                }
+                // User
+                else if(sidebar == "data-user"){
+                    $('.content').load('user/data-user.php');
+                    $('.url-dashboard').html("<li class='breadcrumb-item'><a href='dashboard.php'>Dashboard</a></li><li class='breadcrumb-item'>User</li><li class='breadcrumb-item active'>Data User</li>");
+                }
+                else if(sidebar == "add-user"){
+                    $('.content').load('user/add-user.php');
+                    $('.url-dashboard').html("<li class='breadcrumb-item'><a href='dashboard.php'>Dashboard</a></li><li class='breadcrumb-item'>User</li><li class='breadcrumb-item active'>Add User</li>");
+                }
+                else if(sidebar == "payment"){
+                    $('.content').load('user/payment.php');
+                    $('.url-dashboard').html("<li class='breadcrumb-item'><a href='dashboard.php'>Dashboard</a></li><li class='breadcrumb-item'>User</li><li class='breadcrumb-item active'>Payment</li>");
+                }
+                else if(sidebar == "transaction"){
+                    $('.content').load('user/transaction.php');
+                    $('.url-dashboard').html("<li class='breadcrumb-item'><a href='dashboard.php'>Dashboard</a></li><li class='breadcrumb-item'>User</li><li class='breadcrumb-item active'>Transaction</li>");
+                }
+                // Inventory
+                else if(sidebar == "add-inventory"){
+                    $('.content').load('inventory/add-inventory.php');
+                    $('.url-dashboard').html("<li class='breadcrumb-item'><a href='dashboard.php'>Dashboard</a></li><li class='breadcrumb-item'>Inventory</li><li class='breadcrumb-item active'>Add Data</li>");
+                }
+                else if(sidebar == "data-inventory"){
+                    $('.content').load('inventory/data-inventory.php');
+                    $('.url-dashboard').html("<li class='breadcrumb-item'><a href='dashboard.php'>Dashboard</a></li><li class='breadcrumb-item'>Inventory</li><li class='breadcrumb-item active'>Data</li>");
+                }
+                // Styling
+                else if(sidebar == "slide-show"){
+                    $('.content').load('styling/slideshow.php');
+                    $('.url-dashboard').html("<li class='breadcrumb-item'><a href='dashboard.php'>Dashboard</a></li><li class='breadcrumb-item'>Styling</li><li class='breadcrumb-item active'>Slide Show</li>");
+                }
+                // Contact
+                else if(sidebar == "social-media"){
+                    $('.content').load('contact/social-media.php');
+                    $('.url-dashboard').html("<li class='breadcrumb-item'><a href='dashboard.php'>Dashboard</a></li><li class='breadcrumb-item'>Contact</li><li class='breadcrumb-item active'>Social Media</li>");
+                }
+            });
+            $('.content').load('home.php');
+        });
+    </script>
 </html>

@@ -12,9 +12,7 @@
             
             $user = "root";
             $pw = "";
-            $options = NULL;
-
-            
+            $options = NULL;            
 
             $dsn = "${driver}:host=${host};dbname=${dbname};charset=${charset}";
 
@@ -83,18 +81,18 @@
             }
         }
 
-        public function loginadmin($useradmin, $pwadmin) {
-            $query = "SELECT * FROM tbl_admin WHERE username=:username";
-            $statement = $this->db->prepare($query);
-            if($statement->execute(array(':username' => $useradmin))) {
+        public function loginadmin($user, $pw){
+            $query      = "SELECT * FROM tbl_admin WHERE username=:username";
+            $statement  = $this->db->prepare($query);
+            if($statement->execute(array(':username'=>$user))){
                 $result = $statement->fetch(PDO::FETCH_ASSOC);
-                if(password_verify($pwadmin, $result['password'])) {
-                    $_SESSION['code'] = $result['code'];
+                if(password_verify($pw, $result['password'])){
+                    $_SESSION['code'] = $user;
                     return "sukses";
-                }else {
+                }else{
                     return "gagal";
                 }
-            }else {
+            }else{
                 return "DBGagal";
             }
         }
