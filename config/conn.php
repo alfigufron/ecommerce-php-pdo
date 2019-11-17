@@ -64,9 +64,24 @@
                 }
             }
         }
-
+        
+        public function admin($user, $pw) {
+            $login = "SELECT * FROM tbl_admin WHERE username=:username";
+            $statement = $this->db->prepare($login);
+            if($statement->execute(array(':username' => $user))) {
+                $result = $statement->fetch(PDO::FETCH_ASSOC);
+                if(password_verify($pw, $result['password'])) {
+                    $_SESSION['code'] = $result['code'];
+                    return "sukses";
+                }else {
+                    return "gagal";
+                }
+            }else {
+                return "DBGagal";
+            }
+        }
         public function login($user, $pw) {
-            $login = "SELECT * FROM tbl_user WHERE username=:username LIMIT 1";
+            $login = "SELECT * FROM tbl_user WHERE username=:username";
             $statement = $this->db->prepare($login);
             if($statement->execute(array(':username' => $user))) {
                 $result = $statement->fetch(PDO::FETCH_ASSOC);
@@ -81,21 +96,22 @@
             }
         }
 
-        public function loginadmin($user, $pw){
-            $query      = "SELECT * FROM tbl_admin WHERE username=:username";
-            $statement  = $this->db->prepare($query);
-            if($statement->execute(array(':username'=>$user))){
-                $result = $statement->fetch(PDO::FETCH_ASSOC);
-                if(password_verify($pw, $result['password'])){
-                    $_SESSION['code'] = $user;
-                    return "sukses";
-                }else{
-                    return "gagal";
-                }
-            }else{
-                return "DBGagal";
-            }
-        }
+
+        // public function loginadmin($user, $pw){
+        //     $query      = "SELECT * FROM tbl_admin WHERE username=:username";
+        //     $statement  = $this->db->prepare($query);
+        //     if($statement->execute(array(':username'=>$user))){
+        //         $result = $statement->fetch(PDO::FETCH_ASSOC);
+        //         if(password_verify($pw, $result['password'])){
+        //             $_SESSION['code'] = $user;
+        //             return "sukses";
+        //         }else{
+        //             return "gagal";
+        //         }
+        //     }else{
+        //         return "DBGagal";
+        //     }
+        // }
 
     }
 ?>

@@ -4,7 +4,7 @@
         $user = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
         $pw = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
         $def = new DB();
-        $add = $def->loginadmin($user, $pw);
+        $add = $def->admin($user, $pw);
         if(isset($_SESSION['code'])){
             header("location:dashboard.php?verify=".$_SESSION['code']);
         }else {
