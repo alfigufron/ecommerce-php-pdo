@@ -1,3 +1,6 @@
+<?php
+    require ('../config.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-    <title>AdminLTE 3 | Starter</title>
+    <title>Admin Project 1</title>
     <link rel="stylesheet" href="../asset/css/style.css">
     <link rel="stylesheet" href="../asset/plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="../asset/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
@@ -28,7 +31,12 @@
 
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
-            
+            <li class="nav-item">
+                    <a class="nav-link" href="logout.php">
+                        <!-- <i class=""></i> -->
+                        Log Out
+                    </a>
+                </li>
             </ul>
         </nav>
         <!-- Close Navbar -->

@@ -1,6 +1,18 @@
 <?php
-    require '../config/conn.php';
-    if (isset($_POST['register'])) {
+    require ('../config.php');
+    if (isset($_POST['register'])){
+        function ngacak($digit){
+            $karakter = '1234567890';
+            $string = '';
+            for($i=0; $i<$digit; $i++)
+            {
+                $post = rand(0, strlen($karakter)-1);
+                $string .= $karakter{$post};
+            };
+            return $string;
+        };
+
+        $random = ngacak(8);
         $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
         $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_STRING);
         $phone = filter_input(INPUT_POST, 'phone-number', FILTER_SANITIZE_STRING);
@@ -10,9 +22,8 @@
         $address = filter_input(INPUT_POST, 'address', FILTER_SANITIZE_STRING);
         $hashed = password_hash($pw, PASSWORD_DEFAULT);
         $picture = $_FILES['photo'];
-
-        $def = new DB();
-        $add = $def->register($name,$email,$phone,$username,$hashed,$birth,$address,$picture);
+        $def = new project1();
+        $add = $def->registerUser($random,$name,$email,$phone,$username,$hashed,$birth,$address,$picture);
         if($add = "berhasil") {
             header("location:login.php");
         } else {

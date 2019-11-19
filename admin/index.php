@@ -1,15 +1,21 @@
 <?php
-    require ('../config/conn.php');
-    if(isset($_POST['login'])) {
-        $user = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
-        $pw = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
-        $def = new DB();
-        $add = $def->admin($user, $pw);
-        if(isset($_SESSION['code'])){
-            header("location:dashboard.php?verify=".$_SESSION['code']);
-        }else {
-            header("location:index.php?gagal");
+    require ('../config.php');
+    if(isset($_POST['login'])){
+        // echo "Berhasil Isset";
+        $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
+        $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
+        $hashed = password_hash($password, PASSWORD_DEFAULT);
+
+        $def = new project1();
+        $add = $def->logAdmin($username, $password);
+        if(!empty($_SESSION['codeadmin'])){
+            // echo "Berhasil Login"
+            header("location:dashboard.php?verify=".$_SESSION['codeadmin']);
+        }else{
+            echo "Gagal Function";
         }
+    }else{
+        // echo "Gagal Isset";
     }
 ?>
 <!DOCTYPE html>

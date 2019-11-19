@@ -1,10 +1,10 @@
 <?php
-    require ('../config/conn.php');
+    require ('../config.php');
     if(isset($_POST['login'])) {
-        $user = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
-        $pw = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
-        $def = new DB();
-        $add = $def->login($user, $pw);
+        $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
+        $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
+        $def = new project1();
+        $add = $def->logUser($username, $password);
         if(isset($_SESSION['code'])){
             header("location:../index.php?unique=".$_SESSION['code']);
         }else{
