@@ -17,7 +17,7 @@ body{font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif!important}
 .news h3{padding: 40px 0px 10px 0px;font-weight: 600;}
 
 /* Category */
-.category{text-align: center;padding: 20px 0px;cursor: default;padding-bottom: 100px;}
+.category{text-align: center;padding: 20px 0px;cursor: default;}
 .category ul li a{color: #808e9b;padding: 5px 20px;}
 .category ul li a:hover{color: #1e272e;text-decoration: none;}
 
@@ -25,6 +25,7 @@ body{font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif!important}
 .list-category a, .list-category a:visited{position: relative;}
 .list-category a:after, .list-category a:visited:after{content: "";height: 2px;position: absolute;bottom: 0;left: 0;width: 0%;background: #1e272e;transition: 0.2s;}
 .list-category a:hover:after, .list-category a:visited:hover:after{width: 100%;}
+.all-category{text-align: center;padding:20px 0px;}
 
 #active{color: #1e272e;}
 #active:after, #active:visited:after{content: "";height: 2px;position: absolute;bottom: 0;left: 0;width: 0%;background: #1e272e;transition: 0.2s;}
@@ -113,3 +114,4 @@ input[type=number]{-moz-appearance: textfield;}
 
 /* Inventory Page Admin */
 .content-inventory h3{text-align: center;font-weight: bold;text-transform: uppercase;}
+.goods-pict-adm{width: 200px;}

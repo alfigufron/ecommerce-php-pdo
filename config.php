@@ -67,6 +67,27 @@
                 }
             }
         }
+        public function registerUserAdmin($random,$name,$email,$phone,$username,$hashed,$birth,$address,$picture){
+            $namepicture = $picture['name'];
+            $loctmp = $picture['tmp_name'];
+            $allowed = array('png', 'jpg', 'jpeg');
+            $dot = explode('.', $namepicture);
+            $ext = strtolower(end($dot));
+            $newname = mt_rand(1,99).$username.'.'.$ext;
+            if(in_array($ext, $allowed) === TRUE) {
+                move_uploaded_file($loctmp, '../../asset/img/pict-acc/'.$newname);
+                $sql = "INSERT INTO tbl_user (code, name, username, password, birth, email, phone_number, address, picture) 
+                VALUES (:code, :name, :username, :password, :birth, :email, :phone, :address, :picture)";
+                $statement = $this->db->prepare($sql);
+                $statement->execute(array(':code'=>$random, ':name'=>$name, ':username'=>$username, ':password'=>$hashed, ':birth'=>$birth, 
+                ':email'=>$email, ':phone'=>$phone, ':address'=>$address, ':picture'=>$newname ));
+                if(!$statement) {
+                    return "gagal";
+                } else {
+                    return "sukses";
+                }
+            }
+        }
         public function logUser($username, $password) {
             $login = "SELECT * FROM tbl_user WHERE username=:username";
             $statement = $this->db->prepare($login);
@@ -80,6 +101,41 @@
                 }
             }else {
                 return "DBGagal";
+            }
+        }
+        public function addInventory($random, $name, $price, $stock, $note, $category, $photo){
+            $namephoto = $photo['name'];
+            $loctmp = $photo['tmp_name'];
+            $allowed = array('png', 'jpg', 'jpeg');
+            $dot = explode('.', $namephoto);
+            $ext = strtolower(end($dot));
+            $newname = mt_rand(1,99).$random.'.'.$ext;
+            if(in_array($ext, $allowed) === TRUE){
+                move_uploaded_file($loctmp, '../../asset/img/pict-goods/'.$newname);
+                $sql = "INSERT INTO tbl_goods (code_goods, name, picture, price, stock, note, category)
+                VALUES (:code, :name, :photo, :price, :stock, :note, :category)";
+                $statement = $this->db->prepare($sql);
+                $statement->execute(array(':code'=>$random, ':name'=>$name, ':photo'=>$newname, 
+                ':price'=>$price, ':stock'=>$stock, ':note'=>$note, ':category'=>$category));
+                if(!$statement){
+                    return "gagal";
+                }else{
+                    return "sukses";
+                }
+            }
+        }
+        public function dataUser(){
+            $sql = "SELECT * FROM tbl_user";
+            $stmt = $this->db->prepare($sql);
+            if($stmt->execute()){
+                return $stmt;
+            }
+        }
+        public function goodsData(){
+            $sql = "SELECT * FROM tbl_goods";
+            $stmt = $this->db->prepare($sql);
+            if($stmt->execute()){
+                return $stmt;
             }
         }
     }

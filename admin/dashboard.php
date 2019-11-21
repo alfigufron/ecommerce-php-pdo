@@ -69,7 +69,7 @@
                         
                         <!-- User Menu -->
                         <li class="nav-item has-treeview">
-                            <a id="dashboard" class="nav-link click">
+                            <a id="dashboard" class="nav-link" href="dashboard.php">
                                 <i class="nav-icon fas fa-home"></i>
                                 <p>Dashboard</p>
                             </a>
@@ -84,19 +84,19 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a id="add-user" class="nav-link click">
+                                    <a id="add-user" class="nav-link" href="user/add-user.php">
                                         <i class="fas fa-plus nav-icon"></i>
                                         <p>Add Data</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a id="data-user" class="nav-link click">
+                                    <a id="data-user" class="nav-link" href="user/data-user.php">
                                         <i class="fas fa-file-alt nav-icon"></i>
                                         <p>Data</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a id="payment" class="nav-link click">
+                                    <a id="payment" class="nav-link" href="#">
                                         <i class="fas fa-money-bill nav-icon"></i>
                                         <p>
                                             Payment
@@ -105,7 +105,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a id="transaction" class="nav-link click">
+                                    <a id="transaction" class="nav-link" href="#">
                                         <i class="fas fa-money-check-alt nav-icon"></i>
                                         <p>Transaction</p>
                                     </a>
@@ -124,13 +124,13 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a id="add-inventory" class="nav-link click">
+                                    <a id="add-inventory" class="nav-link" href="inventory/add-inventory.php">
                                         <i class="fas fa-plus nav-icon"></i>
                                         <p>Add Data</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a id="data-inventory" class="nav-link click">
+                                    <a id="data-inventory" class="nav-link" href="inventory/data-inventory.php">
                                         <i class="fas fa-file-alt nav-icon"></i>
                                         <p>Data</p>
                                     </a>
@@ -149,7 +149,7 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a id="slide-show" class="nav-link click">
+                                    <a id="slide-show" class="nav-link" href="#">
                                         <i class="fas fa-images nav-icon"></i>
                                         <p>Slide Show</p>
                                     </a>
@@ -168,7 +168,7 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a id="social-media" class="nav-link click">
+                                    <a id="social-media" class="nav-link" href="#">
                                         <i class="fas fa-plus nav-icon"></i>
                                         <p>Social Media</p>
                                     </a>
@@ -207,6 +207,7 @@
             <div class="content">
                 <div class="container-fluid">
                     <!-- <h1>Hi, Admin!</h1> -->
+                    
                 </div>
             </div>
             <!-- Close content -->
@@ -230,7 +231,7 @@
     <script src="../asset/js/bootstrap.min.js"></script>
     <script src="../asset/js/popper.min.js"></script>
 </body>
-    <script>
+    <!-- <script>
         $(document).ready(function() {
             $('.click').click(function() {
                 let sidebar = $(this).attr('id');
@@ -238,13 +239,13 @@
                     $('.content').load('home.php');
                 }
                 // User
-                else if(sidebar == "data-user"){
-                    $('.content').load('user/data-user.php');
-                    $('.url-dashboard').html("<li class='breadcrumb-item'><a href='dashboard.php'>Dashboard</a></li><li class='breadcrumb-item'>User</li><li class='breadcrumb-item active'>Data User</li>");
-                }
                 else if(sidebar == "add-user"){
                     $('.content').load('user/add-user.php');
                     $('.url-dashboard').html("<li class='breadcrumb-item'><a href='dashboard.php'>Dashboard</a></li><li class='breadcrumb-item'>User</li><li class='breadcrumb-item active'>Add User</li>");
+                }
+                else if(sidebar == "data-user"){
+                    $('.content').load('user/data-user.php');
+                    $('.url-dashboard').html("<li class='breadcrumb-item'><a href='dashboard.php'>Dashboard</a></li><li class='breadcrumb-item'>User</li><li class='breadcrumb-item active'>Data User</li>");
                 }
                 else if(sidebar == "payment"){
                     $('.content').load('user/payment.php');
@@ -276,5 +277,5 @@
             });
             $('.content').load('home.php');
         });
-    </script>
+    </script> -->
 </html>
