@@ -1,5 +1,53 @@
 <?php
-    require ('config/conn.php');
+    require ('config.php');
+    $def = new project1();
+    $get = $def->getDB();
+    $codeuser = $_SESSION['code'];
+    function ngacak($digit){
+        $karakter = '1234567890';
+        $string = '';
+        for($i=0; $i<$digit; $i++)
+        {
+            $post = rand(0, strlen($karakter)-1);
+            $string .= $karakter{$post};
+        };
+        return $string;
+    };
+    $transactionCode = ngacak(14);
+
+    if(isset($_POST['order'])){
+        $transCode = $_POST['input_transactionCode'];
+        $userCode = $_POST['input_userCode'];
+        $goodsCode = $_POST['input_goodsCode'];
+        $goodsName = $_POST['input_goodsName'];
+        $Lots = $_POST['input_Lots'];
+        $Price = $_POST['input_Price'];
+        $Note = $_POST['input_Note'];
+        $Address = $_POST['input_Address'];
+
+        $sql_addOrder = "INSERT INTO tbl_order(transaction_code, user_code, goods_code, goods_name, lots, price, note, shipping_address) 
+        VALUES (:transaction_code, :user_code, :goods_code, :goods_name, :lots, :price, :note, :shipping_address)";
+        $statement_addOrder = $get->prepare($sql_addOrder);
+        $proof = NULL;
+        $index = 0;
+        foreach($userCode as $dataUser){
+            $statement_addOrder->bindParam(':transaction_code', $transactionCode);
+            $statement_addOrder->bindParam(':user_code', $dataUser);
+            $statement_addOrder->bindParam(':goods_code', $goodsCode[$index]);
+            $statement_addOrder->bindParam(':goods_name', $goodsName[$index]);
+            $statement_addOrder->bindParam(':lots', $Lots[$index]);
+            $statement_addOrder->bindParam(':price', $Price[$index]);
+            $statement_addOrder->bindParam(':note', $Note[$index]);
+            $statement_addOrder->bindParam(':shipping_address', $Address[$index]);
+            if($statement_addOrder->execute()){
+                $sql_deleteCart = "DELETE FROM tbl_cart WHERE codeuser=:codeuser";
+                $statementDelete = $get->prepare($sql_deleteCart);
+                $statementDelete->execute(array(':codeuser'=>$dataUser));
+            }
+            
+            $index++;
+        }
+    };
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -39,7 +87,23 @@
                         <div class="nav-menu">
                             <a class="nav-link d-inline-flex click-page" href="cart.php">
                                 <img src="asset/img/cart-button.png" width="20" height="20" alt="" class="mr-2">
-                                Cart (0)
+                                <?php
+                                    if(isset($_SESSION['code'])){
+                                        $codeusercart = $_SESSION['code'];
+                                        $sqlCart = "SELECT codegoods FROM tbl_cart WHERE codeuser=:codeuser ";
+                                        $statementCart = $get->prepare($sqlCart);
+                                        $statementCart->execute(array(':codeuser'=>$codeusercart));
+                                        $count = $statementCart->rowCount();
+                                        if($count > "0"){
+                                            echo "Cart($count)";
+                                        }else{
+                                            echo "Cart(0)";
+                                        }
+                                    }elseif(empty($_SESSION['code'])){
+                                        echo "Cart(0)";
+                                    }
+                                ?>
+                                <!-- Cart (0) -->
                             </a>
                         </div>
                     </li>
@@ -84,8 +148,16 @@
                             </a>
                         </div> -->
                         <div class="dropdown">
+                            <?php
+                                $codeuser = $_SESSION['code'];
+                                $get = $def->getDB();
+                                $query = "SELECT * FROM tbl_user WHERE code=:code";
+                                $statement = $get->prepare($query);
+                                $statement->execute(array(':code' => $codeuser));
+                                $d1 = $statement->fetch(PDO::FETCH_OBJ);
+                            ?>
                             <button class="btn dropdown-toggle text-light" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img src="asset/img/profile-icon.png" width="20" height="20" alt=""> User
+                            <img src="asset/img/profile-icon.png" width="20" height="20" alt=""> <?= $d1->name ?>
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <a class="dropdown-item" href="#">Detail Account</a>
@@ -109,48 +181,127 @@
         </div>
         <?php } ?>
 
-        <?php if(isset($_SESSION['code'])) { ?>
+        <?php if(isset($_SESSION['code'])) {
+        ?>
         <table class="table table-cart">
             <thead class="thead-dark">
                 <tr>
-                <th scope="col">No</th>
-                <th scope="col">Product</th>
-                <th scope="col">Price</th>
-                <th scope="col">Quantity</th>
-                <th scope="col">Option</th>
+                    <th scope="col">Goods Code</th>
+                    <th scope="col">Product</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Lots</th>
+                    <th scope="col">Size</th>
+                    <th scope="col">Note</th>
+                    <th scope="col">Option</th>
                 </tr>
             </thead>
         <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>CANVAS SUEDE TRUCKER BLACK</td>
-                <td>IDR 225.000</td>
-                <td>1</td>
-                <td>
-                    <button class="btn btn-danger">Delete</button>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row">1</th>
-                <td>CANVAS SUEDE TRUCKER BROWN</td>
-                <td>IDR 215.000</td>
-                <td>1</td>
-                <td>
-                    <button class="btn btn-danger">Delete</button>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row">1</th>
-                <td>CANVAS SUEDE TRUCKER LIGHT BROWN</td>
-                <td>IDR 200.000</td>
-                <td>1</td>
-                <td>
-                    <button class="btn btn-danger">Delete</button>
-                </td>
-            </tr>
+            <?php
+                $sql = "SELECT * FROM tbl_cart WHERE codeuser=:codeuser ";
+                $statement = $get->prepare($sql);
+                $statement->execute(array(':codeuser'=>$codeuser));
+                while($cart = $statement->fetch(PDO::FETCH_OBJ)){
+                    $codegoods = $cart->codegoods;
+                    $price_detail = "IDR ".number_format($cart->price, 0,',','.');
+                    echo
+                    "
+                        <tr>
+                            <td>$cart->codegoods</td>
+                            <td>$cart->goodsname</td>
+                            <td>$price_detail</td>
+                            <td>$cart->lots</td>
+                            <td>$cart->size</td>
+                            <td>$cart->note</td>
+                            <td>
+                                <a href='config/delete-cart.php?id=$cart->id' class='btn btn-danger'>Delete</a>
+                            </td>
+                        </tr>
+                    ";
+                }
+                // Total Price
+                $sql1 = "SELECT SUM(price) AS value_sum FROM tbl_cart WHERE codeuser=:codeuser";
+                $statement1 = $get->prepare($sql1);
+                $statement1->execute(array(':codeuser'=>$codeuser));
+                $row = $statement1->fetch(PDO::FETCH_ASSOC);
+                $total = $row['value_sum'];
+                $total_detail = "IDR ".number_format($total, 0,',','.');
+
+                // Total Lots
+                $sql2 = "SELECT SUM(lots) AS value_sum FROM tbl_cart WHERE codeuser=:codeuser";
+                $statement2 = $get->prepare($sql2);
+                $statement2->execute(array(':codeuser'=>$codeuser));
+                $row = $statement2->fetch(PDO::FETCH_ASSOC);
+                $totalLots = $row['value_sum'];
+
+                echo
+                "
+                <tr class='bg-dark text-light'>
+                    <td>Total</td>
+                    <td></td>
+                    <td>$total_detail</td>
+                    <td>$totalLots</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                "
+            ?>
         </tbody>
         </table>
+            <a href='' class='btn btn-dark' data-toggle='modal' data-target='#order-modal'>Order</a>
         <?php } ?>
+        <div class="modal fade" id="order-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Order</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="orderDialog">
+                        <form method="post" action="">
+                            <?php
+                                $sql_cart = "SELECT * FROM tbl_cart WHERE codeuser=:codeuser";
+                                $statement_cart = $get->prepare($sql_cart);
+                                $statement_cart->execute(array(':codeuser'=>$codeuser));
+                                while($data_cart = $statement_cart->fetch(PDO::FETCH_OBJ)){
+                                    $sql_user = "SELECT * FROM tbl_user WHERE code=:codeuser";
+                                    $statement_user = $get->prepare($sql_user);
+                                    $statement_user->execute(array(':codeuser'=>$codeuser));
+                                    $data_user = $statement_user->fetch(PDO::FETCH_OBJ);
+                                    $address = $data_user->address;
+                                    echo
+                                    "   
+                                        <label>Kode Transaksi</label>
+                                        <input type='text' name='input_transactionCode[]' value='$transactionCode'>
+                                        <label>Kode User</label>
+                                        <input type='text' name='input_userCode[]' value='$codeuser'>
+                                        <label>Kode Barang</label>
+                                        <input type='text' name='input_goodsCode[]' value='$data_cart->codegoods'>
+                                        <label>Nama Barang</label>
+                                        <input type='text' name='input_goodsName[]' value='$data_cart->goodsname'>
+                                        <label>Jumlah Barang</label>
+                                        <input type='text' name='input_Lots[]' value='$data_cart->lots'>
+                                        <label>Harga Barang</label>
+                                        <input type='text' name='input_Price[]' value='$data_cart->price'>
+                                        <label>Catatan</label>
+                                        <input type='text' name='input_Note[]' value='$data_cart->note'>
+                                        <label>Alamat</label>
+                                        <input type='text' name='input_Address[]' value='$address'>
+                                    ";
+                                }
+                            ?>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <input type="submit" value="Beli" name="order">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Footer -->
@@ -198,4 +349,10 @@
     <script src="asset/js/bootstrap.min.js"></script>
     <script src="asset/js/popper.min.js"></script>
 </body>
+<script>
+    // $(document).on("click", ".data-cart", function() {
+    //     let myId = $(this).data('id');
+    //     $(".modal-body #orderId").val(myId);
+    // });
+</script>
 </html>

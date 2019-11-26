@@ -1,5 +1,13 @@
 <?php
     require ('../../config.php');
+    if(empty($_SESSION['codeadmin'])){
+        echo "  <script>
+                    alert('Login terlebih dahulu');
+                    window.location.href='../index.php';
+                </script>";
+    }else{
+        // echo "<script>alert('Selamat Datang Admin!')</script>";
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -73,7 +81,7 @@
                                 <p>Dashboard</p>
                             </a>
                         </li>
-                        <li class="nav-item has-treeview">
+                        <li class="nav-item has-treeview menu-open">
                             <a href="#" class="nav-link active">
                             <i class="nav-icon fas fa-user"></i>
                             <p>
@@ -215,7 +223,6 @@
                                     <table class="table table-hover">
                                         <thead>
                                             <tr>
-                                                <th>No</th>
                                                 <th>Code</th>
                                                 <th>Name</th>
                                                 <th>Email</th>
@@ -231,10 +238,11 @@
                                                 $def = new project1();
                                                 $datauser = $def->dataUser();
                                                 while($d = $datauser->fetch(PDO::FETCH_OBJ)){
+
+
                                                     echo
                                                     "
                                                         <tr>
-                                                        <td>1</td>
                                                         <td>$d->code</td>
                                                         <td>$d->name</td>
                                                         <td>$d->email</td>
@@ -242,7 +250,7 @@
                                                         <td>$d->birth</td>
                                                         <td>$d->address</td>
                                                         <td>
-                                                            <a href='#' class='btn-option'><button type='button' class='btn btn-block btn-xs btn-danger'>Delete</button></a>
+                                                            <a href='delete-user.php?id=$d->id' class='btn-option'><button type='button' class='btn btn-block btn-xs btn-danger'>Delete</button></a>
                                                         </td>
                                                         </tr>
                                                     ";

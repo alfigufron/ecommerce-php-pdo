@@ -1,5 +1,13 @@
 <?php
     require ('config.php');
+    $def = new project1();
+    $get = $def->getDB();
+    // $codeuser = $_SESSION['code'];
+    // $get = $def->getDB();
+    // $query = "SELECT * FROM tbl_user WHERE code=:code";
+    // $statement = $get->prepare($query);
+    // $statement->execute(array(':code' => $codeuser));
+    // $d1 = $statement->fetch(PDO::FETCH_OBJ);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -40,7 +48,22 @@
                         <div class="nav-menu">
                             <a class="nav-link d-inline-flex click-page" href="cart.php">
                                 <img src="asset/img/cart-button.png" width="20" height="20" alt="" class="mr-2">
-                                Cart (0)
+                                <?php
+                                    if(isset($_SESSION['code'])){
+                                        $codeusercart = $_SESSION['code'];
+                                        $sqlCart = "SELECT codegoods FROM tbl_cart WHERE codeuser=:codeuser ";
+                                        $statementCart = $get->prepare($sqlCart);
+                                        $statementCart->execute(array(':codeuser'=>$codeusercart));
+                                        $count = $statementCart->rowCount();
+                                        if($count > "0"){
+                                            echo "Cart($count)";
+                                        }else{
+                                            echo "Cart(0)";
+                                        }
+                                    }elseif(empty($_SESSION['code'])){
+                                        echo "Cart(0)";
+                                    }
+                                ?>
                             </a>
                         </div>
                     </li>
@@ -86,8 +109,16 @@
                             </a>
                         </div> -->
                         <div class="dropdown">
+                            <?php
+                                $codeuser = $_SESSION['code'];
+                                $get = $def->getDB();
+                                $query = "SELECT * FROM tbl_user WHERE code=:code";
+                                $statement = $get->prepare($query);
+                                $statement->execute(array(':code' => $codeuser));
+                                $d1 = $statement->fetch(PDO::FETCH_OBJ);
+                            ?>
                             <button class="btn dropdown-toggle text-light" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img src="asset/img/profile-icon.png" width="20" height="20" alt=""> User
+                            <img src="asset/img/profile-icon.png" width="20" height="20" alt=""> <?= $d1->name ?>
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <a class="dropdown-item" href="#">Detail Account</a>

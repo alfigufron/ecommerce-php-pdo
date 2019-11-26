@@ -1,5 +1,13 @@
 <?php
     require ('../../config.php');
+    if(empty($_SESSION['codeadmin'])){
+        echo "  <script>
+                    alert('Login terlebih dahulu');
+                    window.location.href='../index.php';
+                </script>";
+    }else{
+        // echo "<script>alert('Selamat Datang Admin!')</script>";
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -113,7 +121,7 @@
                         </li>
 
                         <!-- Inventory Menu -->
-                        <li class="nav-item has-treeview ">
+                        <li class="nav-item has-treeview menu-open">
                             <a href="#" class="nav-link active">
                             <i class="nav-icon fas fa-warehouse"></i>
                             <p>
@@ -226,7 +234,7 @@
 														<th>Price</th>
 														<th>Stock</th>
 														<th>Note</th>
-														
+														<th>Option</th>
 													</tr>
 												</thead>
 												<tbody>
@@ -246,7 +254,8 @@
                                                                 <td>$d->price</td>
                                                                 <td>$d->stock</td>
                                                                 <td>$d->note</td>
-													        </tr>
+                                                                <td><a href='delete-inventory.php?id=$d->id' class='btn-option'><button type='button' class='btn btn-block btn-xs btn-danger'>Delete</button></a></td>
+                                                            </tr>
                                                         ";
                                                     }
                                                 ?>

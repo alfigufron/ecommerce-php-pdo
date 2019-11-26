@@ -1,5 +1,13 @@
 <?php
     require ('../config.php');
+    if(empty($_SESSION['codeadmin'])){
+        echo "  <script>
+                    alert('Login terlebih dahulu');
+                    window.location.href='index.php';
+                </script>";
+    }else{
+        echo "<script>alert('Selamat Datang Admin!')</script>";
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">

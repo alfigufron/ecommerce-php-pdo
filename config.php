@@ -25,7 +25,7 @@
             $sql = "INSERT INTO tbl_admin (code, name, username, password) VALUES (:code, :name, :username, :password)";
 		    $stmt = $this->db->prepare($sql);
 		    $stmt->execute(array(':code'=>$code, ':name'=>$name, ':username'=>$username, ':password'=>$hashed));
-		    if (!$stmt) {
+		    if(!$stmt) {
 		    	return "gagal";
 		    }else{
 		    	return "sukses";
@@ -122,6 +122,18 @@
                 }else{
                     return "sukses";
                 }
+            }
+        }
+        public function addCart($cart_codeuser, $cart_codegoods, $cart_goodsname, $cart_lots, $cart_size, $cart_total, $cart_note){
+            $sql = "INSERT INTO tbl_cart (codeuser, codegoods, goodsname, lots, size, price, note)
+            VALUES (:codeuser, :codegoods, :goodsname, :lots, :size, :price, :note)";
+            $statement = $this->db->prepare($sql);
+            $statement->execute(array(':codeuser'=>$cart_codeuser, ':codegoods'=>$cart_codegoods, ':goodsname'=>$cart_goodsname, 
+            ':lots'=>$cart_lots, ':size'=>$cart_size, ':price'=>$cart_total, ':note'=>$cart_note));
+            if(!$statement){
+                return "gagal";
+            }else{
+                return "sukses";
             }
         }
         public function dataUser(){

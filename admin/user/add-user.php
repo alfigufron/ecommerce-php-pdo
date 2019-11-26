@@ -1,5 +1,13 @@
 <?php
     require ('../../config.php');
+    if(empty($_SESSION['codeadmin'])){
+        echo "  <script>
+                    alert('Login terlebih dahulu');
+                    window.location.href='../index.php';
+                </script>";
+    }else{
+        // echo "<script>alert('Selamat Datang Admin!')</script>";
+    }
     if (isset($_POST['register'])){
         function ngacak($digit){
             $karakter = '1234567890';
@@ -104,7 +112,7 @@
                                 <p>Dashboard</p>
                             </a>
                         </li>
-                        <li class="nav-item has-treeview ">
+                        <li class="nav-item has-treeview menu-open">
                             <a href="#" class="nav-link active">
                             <i class="nav-icon fas fa-user"></i>
                             <p>
