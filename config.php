@@ -150,5 +150,12 @@
                 return $stmt;
             }
         }
+        public function orderData(){
+            $sql = "SELECT * FROM tbl_order";
+            $stmt = $this->db->prepare($sql);
+            if($stmt->execute()){
+                return $stmt;
+            }
+        }
     }
 ?>

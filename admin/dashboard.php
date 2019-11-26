@@ -104,7 +104,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a id="payment" class="nav-link" href="#">
+                                    <a id="payment" class="nav-link" href="user/payment.php">
                                         <i class="fas fa-money-bill nav-icon"></i>
                                         <p>
                                             Payment
@@ -113,7 +113,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a id="transaction" class="nav-link" href="#">
+                                    <a id="transaction" class="nav-link" href="user/transaction.php">
                                         <i class="fas fa-money-check-alt nav-icon"></i>
                                         <p>Transaction</p>
                                     </a>
