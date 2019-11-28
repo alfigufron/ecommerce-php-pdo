@@ -1,9 +1,9 @@
 <?php
     session_start();
-    class project1{
-        protected $db;
-        function __construct(){
-            $driver     = "mysql";
+    class project1{ //Class Project1
+        protected $db; //Mprotect dalam bahasa inggris yaitu melindungi $db
+        function __construct(){ //Membuat function 
+            $driver     = "mysql"; 
             $host       = "localhost";
             $dbname     = "db_project1";
             $charset    = "utf8mb4";
@@ -12,14 +12,15 @@
             $option     = NULL;
 
             $dsn        = "${driver}:host=${host};dbname=${dbname};charset=${charset}";
+            // membuat variabel untuk menyambunbgkan ke database
             try{
                 $this->db = new PDO($dsn, $user, $password, $option);
             }catch(\PDOException $e){
                 throw new \PDOException($e->getMessage(), (int)$e->getCode());
             }
         }
-        public function getDB(){
-            return $this->db;
+        public function getDB(){ //membuat function
+            return $this->db;                          
         }
         public function addAdmin($code, $name, $username, $hashed){
             $sql = "INSERT INTO tbl_admin (code, name, username, password) VALUES (:code, :name, :username, :password)";
@@ -136,6 +137,36 @@
                 return "sukses";
             }
         }
+        public function sendProof($transaction_code, $proofPicture){
+            function ngacak($digit){
+                $karakter = '1234567890';
+                $string = '';
+                for($i=0; $i<$digit; $i++)
+                {
+                    $post = rand(0, strlen($karakter)-1);
+                    $string .= $karakter{$post};
+                };
+                return $string; 
+            };
+            $random = ngacak(10);
+            $namephoto = $proofPicture['name'];
+            $loctmp = $proofPicture['tmp_name'];
+            $allowed = array('png', 'jpg', 'jpeg');
+            $dot = explode('.', $namephoto);
+            $ext = strtolower(end($dot));
+            $newname = mt_rand(1,99).$random.'.'.$ext;
+            if(in_array($ext, $allowed) === TRUE){
+                move_uploaded_file($loctmp,'asset/img/pict-proof/'.$newname);
+                $sql = "UPDATE tbl_order SET proof=:proof WHERE transaction_code=:transaction_code";
+                $statement = $this->db->prepare($sql);
+                $statement->execute(array(':proof'=>$newname, ':transaction_code'=>$transaction_code));
+                if(!$statement){
+                    return "gagal";
+                }else{
+                    return "sukses";
+                }
+            }
+        }
         public function dataUser(){
             $sql = "SELECT * FROM tbl_user";
             $stmt = $this->db->prepare($sql);
@@ -154,6 +185,23 @@
             $sql = "SELECT * FROM tbl_order";
             $stmt = $this->db->prepare($sql);
             if($stmt->execute()){
+                return $stmt;
+            }
+        }
+        public function orderDataDetail($codeuser){
+            $sql = "SELECT * FROM tbl_order WHERE user_code=:codeuser";
+            $stmt = $this->db->prepare($sql);
+            if($stmt->execute(array(':codeuser'=>$codeuser))){
+                return $stmt;
+            }
+        }
+        public function cartData($codeuser){
+            $sql = "SELECT * FROM tbl_cart WHERE codeuser=:user";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute(array(':user'=>$codeuser));
+            if(!$stmt){
+                return "gagal";
+            }else{
                 return $stmt;
             }
         }

@@ -182,6 +182,18 @@
         <?php } ?>
 
         <?php if(isset($_SESSION['code'])) {
+            $sql = "SELECT * FROM tbl_cart WHERE codeuser=:codeuser ";
+            $statement = $get->prepare($sql);
+            $statement->execute(array(':codeuser'=>$codeuser));
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
+            if(empty($result)){
+                echo 
+                "
+                    <div class='empty-cart'>
+                        <h4>Cart Empty</h4>
+                    </div>
+                ";
+            }else{
         ?>
         <table class="table table-cart">
             <thead class="thead-dark">
@@ -249,7 +261,7 @@
         </tbody>
         </table>
             <a href='' class='btn btn-dark' data-toggle='modal' data-target='#order-modal'>Order</a>
-        <?php } ?>
+        <?php } } ?>
         <div class="modal fade" id="order-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">

@@ -134,36 +134,120 @@
         </div>
         <?php } ?>
 
-        <?php if(isset($_SESSION['code'])) { ?>
-        <table class="table table-cart">
-            <thead class="thead-dark">
-                <tr>
-                <th scope="col">No</th>
-                <th scope="col">Transaction Code</th>
-                <th scope="col">Product</th>
-                <th scope="col">Quantity</th>
-                <th scope="col">Price</th>
-                <th scope="col">Address</th>
-                <th scope="col">Proof</th>
-                <th scope="col">Payment</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>12345678</td>
-                    <td>CANVAS SUEDE TRUCKER BLACK</td>
-                    <td>1</td>
-                    <td>IDR 215.000</td>
-                    <td>Di rumah</td>
-                    <td>
-                        <input type="file" name="" id="">
-                    </td>
-                    <td>Belum Bayar</td>
-                </tr>
-            </tbody>
-        </table>
-        <?php }  ?>
+        <?php if(isset($_SESSION['code'])) {
+            $dataorder = $def->orderDataDetail($codeuser);
+            $result = $dataorder->fetch(PDO::FETCH_ASSOC);
+            if(empty($result)){
+                echo
+                "
+                    <div class='empty-cart'>
+                        <h4>Payment Empty</h4>
+                    </div>
+                ";
+            }else{
+        ?>
+        <div class="table-responsive p-0">
+            <table class="table table-cart table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Transaction Code</th>
+                        <th scope="col">Product</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Proof</th>
+                        <th scope="col">Payment</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                        $dataorder = $def->orderDataDetail($codeuser);
+                        while($d = $dataorder->fetch(PDO::FETCH_OBJ)){
+                    ?>
+                    <tr>
+                        <td><?= $d->transaction_code ?></td>
+                        <td><?= $d->goods_name ?></td>
+                        <td><?= $d->lots ?></td>
+                        <td><?= $d->price ?></td>
+                        <td><?= $d->shipping_address ?></td>
+                        <td>
+                            <?php
+                                $data = $d->proof;
+                                if($data == NULL){
+                                    echo
+                                    "
+                                        <button type='button' class='btn btn-primary' data-toggle='modal' data-target='#exampleModal'>
+                                            Payment
+                                        </button>
+                                    ";
+                                }else{
+                                    echo
+                                    "
+                                        <button type='button' class='btn btn-primary' data-toggle='modal' data-target='#exampleModal' disabled>
+                                            Payment
+                                        </button>
+                                    ";
+                                }
+                            ?>
+                        </td>
+                        <td>
+                            <?php
+                                $data = $d->proof;
+                                if($data == NULL){
+                                    echo "Belum ada bukti pembayaran";
+                                }else{
+                                    echo "Menunggu Konfirmasi";
+                                }
+                            ?>
+                        </td>
+                    </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Payment</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <?php
+                            if(isset($_POST['sendProof'])){
+                                $dataorder = $def->orderDataDetail($codeuser);
+                                $d = $dataorder->fetch(PDO::FETCH_OBJ);
+                                $transaction_code = $d->transaction_code;
+                                $proofPicture = $_FILES['proof'];
+                                $add = $def->sendProof($transaction_code, $proofPicture, $random);
+                                if($add == "sukses"){
+                                    echo "<script>alert('Berhasil')</script>";
+                                }
+                            }
+                        ?>
+                        <form action="" method="post" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    <input type="file" name="proof" class="custom-file-input" id="exampleInputFile">
+                                    <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        <!-- <button type="button" class="btn btn-dark">Send Proff</button> -->
+                        <input type="submit" value="Send Proof" name="sendProof" class="btn btn-dark">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php } }  ?>
 
     </div>
 

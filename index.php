@@ -160,21 +160,6 @@
             <span class="sr-only">Next</span>
         </a>
     </div>  
-    
-    <div class="container-fluid category bg-white1">
-        <h3 class="font-weight-bold mb-3">Category</h3>
-        <ul class="list-unstyled d-inline-flex text-dark">
-            <li class="p-2 list-category">
-                <a href="#" class="click-page" id="active all-category">All</a>
-            </li>
-            <li class="p-2 list-category">
-                <a href="#" class="click-page" id="cloth-category">Clothes</a>
-            </li>
-            <li class="p-2 list-category">
-                <a href="#" class="click-page" id="pants-category">Pants</a>
-            </li>
-        </ul>
-    </div>
 
     <!-- Menu -->
     <div class="content">

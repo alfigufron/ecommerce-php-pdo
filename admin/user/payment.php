@@ -249,6 +249,7 @@
                                                     $d1 = $statement_user->fetch(PDO::FETCH_OBJ);
 
                                                     $namaUser = $d1->name;
+                                                    $pictureProof = $d->proof;
                                                     echo
                                                     "
                                                         <tr>
@@ -259,7 +260,7 @@
                                                             <td>$d->price</td>
                                                             <td>$d->note</td>
                                                             <td>$d->shipping_address</td>
-                                                            <td>$d->proof</td>
+                                                            <td><button type='button' class='' data-toggle='modal' data-target='#exampleModal'><img class='pict-proof' src='../../asset/img/pict-proof/$d->proof'></button></td>
                                                             <td>
                                                                 <a href='' class='btn-option'><button type='button' class='btn btn-block btn-xs btn-dark'>Confirm</button></a>
                                                                 <a href='' class='btn-option'><button type='button' class='btn btn-block btn-xs btn-danger'>Delete</button></a>
@@ -268,6 +269,18 @@
                                                     ";
                                                 }
                                             ?>
+                                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-lg" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-body modal-proof">
+                                                                <img class='pictureProofModal' src='../../asset/img/pict-proof/<?= $pictureProof ?>'>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-danger w-100" data-dismiss="modal">Close</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </tbody>
                                     </table>
                                 </div>
@@ -293,6 +306,7 @@
 
     <script src="../../asset/js/jquery.js"></script>
     <script src="../../asset/js/bootstrap.bundle.min.js"></script>
+    <script src="../../asset/js/thickbox.js"></script>
     <script src="../../asset/js/adminlte.min.js"></script>
     <script src="../../asset/js/bootstrap.min.js"></script>
     <script src="../../asset/js/popper.min.js"></script>

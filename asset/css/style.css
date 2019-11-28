@@ -111,6 +111,10 @@ input[type=number]{-moz-appearance: textfield;}
 /* User Page Admin */
 .content-user h3{text-align: center;font-weight: bold;text-transform: uppercase;}
 .btn-option{margin: 0.1px;}
+.pict-proof{width: 70px;}
+.modal-proof{margin: auto;}
+.pictureProofModal{width: 450px;}                                                                <img class='pictureProofModal' src='../../asset/img/pict-proof/<?= $pictureProof ?>'>
+
 
 /* Inventory Page Admin */
 .content-inventory h3{text-align: center;font-weight: bold;text-transform: uppercase;}
