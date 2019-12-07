@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 26, 2019 at 08:48 AM
+-- Generation Time: Dec 07, 2019 at 08:04 AM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.3.9
 
@@ -101,17 +101,9 @@ CREATE TABLE `tbl_order` (
   `price` bigint(8) NOT NULL,
   `note` text NOT NULL,
   `shipping_address` text NOT NULL,
-  `proof` text NOT NULL DEFAULT 'Belum ada bukti pembayaran',
+  `proof` text DEFAULT NULL,
   `date_entered` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `tbl_order`
---
-
-INSERT INTO `tbl_order` (`id`, `transaction_code`, `user_code`, `goods_code`, `goods_name`, `lots`, `price`, `note`, `shipping_address`, `proof`, `date_entered`) VALUES
-(1, 2147483647, 99384060, 15164823, 'Barang 1', 2, 240000, 'sadasdasdadasdasdhasjdahsdhadhasdhakshdkjhaskdjhkashdkjashdkhaskdjkjasdasbdhsabdhbasjdhaubdsahbdhbwjhbajsbdjbwjbasbdjabd', 'asjdkhaskdhkahsdkhaksdhkahdkhaskdhkajshdkahskdhkashdkahskdhaskdhasjdkhaskdhkahsdkhaksdhkahdkhaskdhkajshdkahskdhkashdkahskdhaskdh', 'Belum ada bukti pembayaran', '0000-00-00'),
-(2, 2147483647, 99384060, 15164823, 'Barang 1', 2, 240000, 'ashdkjasdkagdaksjdhkajhsdkhaksdhkahd', 'asjdkhaskdhkahsdkhaksdhkahdkhaskdhkajshdkahskdhkashdkahskdhaskdhasjdkhaskdhkahsdkhaksdhkahdkhaskdhkajshdkahskdhkashdkahskdhaskdh', 'Belum ada bukti pembayaran', '0000-00-00');
 
 -- --------------------------------------------------------
 
@@ -129,9 +121,17 @@ CREATE TABLE `tbl_transaction` (
   `price` bigint(8) NOT NULL,
   `note` text NOT NULL,
   `shipping_address` text NOT NULL,
-  `transaction_date` date NOT NULL,
-  `purchase_date` date NOT NULL
+  `transaction_date` text NOT NULL DEFAULT '',
+  `confirm` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tbl_transaction`
+--
+
+INSERT INTO `tbl_transaction` (`id`, `transaction_code`, `user_code`, `goods_code`, `goods_name`, `lots`, `price`, `note`, `shipping_address`, `transaction_date`, `confirm`) VALUES
+(1, 55836486, 67184730, 15164823, 'Barang 1', 1, 120000, '', 'asndnasd,ad', '07 December 2019 13:08:48', 'Barang sudah sampai'),
+(2, 55836486, 67184730, 15523495, 'Barang 2', 1, 200000, '', 'asndnasd,ad', '07 December 2019 13:08:48', NULL);
 
 -- --------------------------------------------------------
 
@@ -157,7 +157,8 @@ CREATE TABLE `tbl_user` (
 --
 
 INSERT INTO `tbl_user` (`id`, `code`, `name`, `username`, `password`, `birth`, `email`, `phone_number`, `address`, `picture`) VALUES
-(1, 99384060, 'Muhammad Alfi Gufron', 'admin', '$2y$10$kQkVoirPtF5ZdEwgdcUO2upUg6LurdTU9dMhL1/FI1mV5SYBYheVy', '2019-11-01', 'alfigufron21@gmail.com', '089675247929', 'asjdkhaskdhkahsdkhaksdhkahdkhaskdhkajshdkahskdhkashdkahskdhaskdhasjdkhaskdhkahsdkhaksdhkahdkhaskdhkajshdkahskdhkashdkahskdhaskdh', '13admin.jpg');
+(1, 99384060, 'Muhammad Alfi Gufron', 'admin', '$2y$10$kQkVoirPtF5ZdEwgdcUO2upUg6LurdTU9dMhL1/FI1mV5SYBYheVy', '2019-11-01', 'alfigufron21@gmail.com', '089675247929', 'asjdkhaskdhkahsdkhaksdhkahdkhaskdhkajshdkahskdhkashdkahskdhaskdhasjdkhaskdhkahsdkhaksdhkahdkhaskdhkajshdkahskdhkashdkahskdhaskdh', '13admin.jpg'),
+(6, 67184730, 'M Athhar Kautsar', 'athhar', '$2y$10$i5Din54FYRS47RULG1BWZ.5Nhk/bDOrndQB554BuQbUmmeMFIEvOq', '2019-11-13', 'athharkautsar14@gmail.com', '123123', 'asndnasd,ad', '58athhar.jpg');
 
 --
 -- Indexes for dumped tables
@@ -213,7 +214,7 @@ ALTER TABLE `tbl_admin`
 -- AUTO_INCREMENT for table `tbl_cart`
 --
 ALTER TABLE `tbl_cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `tbl_goods`
@@ -231,13 +232,13 @@ ALTER TABLE `tbl_order`
 -- AUTO_INCREMENT for table `tbl_transaction`
 --
 ALTER TABLE `tbl_transaction`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tbl_user`
 --
 ALTER TABLE `tbl_user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

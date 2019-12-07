@@ -2,12 +2,6 @@
     require ('config.php');
     $def = new project1();
     $get = $def->getDB();
-    // $codeuser = $_SESSION['code'];
-    // $get = $def->getDB();
-    // $query = "SELECT * FROM tbl_user WHERE code=:code";
-    // $statement = $get->prepare($query);
-    // $statement->execute(array(':code' => $codeuser));
-    // $d1 = $statement->fetch(PDO::FETCH_OBJ);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -75,6 +69,14 @@
                             </a>
                         </div>
                     </li>
+                    <li class="nav-item">
+                        <div class="nav-menu">
+                            <a class="nav-link d-inline-flex click-page" href="transaction.php">
+                                <img src="asset/img/history.png" width="18" height="18" alt="" class="mr-2">
+                                Transaction
+                            </a>
+                        </div>
+                    </li>
                 </ul>
 
                 <?php if(empty($_SESSION['code'])) { ?>
@@ -121,7 +123,6 @@
                             <img src="asset/img/profile-icon.png" width="20" height="20" alt=""> <?= $d1->name ?>
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="#">Detail Account</a>
                                 <a class="dropdown-item" href="logout.php">Log Out</a>
                             </div>
                         </div>

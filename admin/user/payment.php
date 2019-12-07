@@ -9,6 +9,14 @@
                 </script>";
     }else{
         // echo "<script>alert('Selamat Datang Admin!')</script>";
+
+    }
+    if(isset($_POST['confirmOrderAdmin'])){
+        $transCode = filter_input(INPUT_POST, 'transCode', FILTER_SANITIZE_STRING);
+        $add = $def->accPayment($transCode);
+        if($add == "sukses"){
+            echo "<script>alert('Konfirmasi berhasil')</script>";
+        }
     }
 ?>
 <!DOCTYPE html>
@@ -19,6 +27,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Data Order</title>
     <link rel="stylesheet" href="../../asset/css/style.css">
+    <link rel="stylesheet" href="../../asset/css/zoomify.css">
     <link rel="stylesheet" href="../../asset/plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="../../asset/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
     <link rel="stylesheet" href="../../asset/css/bootstrap.min.css">
@@ -105,7 +114,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a id="payment" class="nav-link active" href="#">
+                                    <a id="payment" class="nav-link active" href="payment.php">
                                         <i class="fas fa-money-bill nav-icon"></i>
                                         <p>
                                             Payment
@@ -114,7 +123,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a id="transaction" class="nav-link" href="#">
+                                    <a id="transaction" class="nav-link" href="transaction.php">
                                         <i class="fas fa-money-check-alt nav-icon"></i>
                                         <p>Transaction</p>
                                     </a>
@@ -227,26 +236,17 @@
                                             <tr>
                                                 <th>Transaction Code</th>
                                                 <th>Name</th>
-                                                <th>Goods Name</th>
-                                                <th>Lots</th>
-                                                <th>Price</th>
-                                                <th>Note</th>
-                                                <th>Address</th>
-                                                <th>Proof</th>
                                                 <th>Option</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php
-                                                // $no = 1;
-                                                
-                                                $dataorder = $def->orderData();
+                                                $dataorder = $def->orderDataGroup();
                                                 while($d = $dataorder->fetch(PDO::FETCH_OBJ)){
                                                     $codeUser = $d->user_code;
-                                                    $sql_user = "SELECT * FROM tbl_user WHERE code=:codeuser";
-                                                    $statement_user = $get->prepare($sql_user);
-                                                    $statement_user->execute(array(':codeuser'=>$codeUser));
-                                                    $d1 = $statement_user->fetch(PDO::FETCH_OBJ);
+
+                                                    $dataUser = $def->dataUserDetail($codeUser);
+                                                    $d1 = $dataUser->fetch(PDO::FETCH_OBJ);
 
                                                     $namaUser = $d1->name;
                                                     $pictureProof = $d->proof;
@@ -255,28 +255,38 @@
                                                         <tr>
                                                             <td>$d->transaction_code</td>
                                                             <td>$namaUser</td>
-                                                            <td>$d->goods_name</td>
-                                                            <td>$d->lots</td>
-                                                            <td>$d->price</td>
-                                                            <td>$d->note</td>
-                                                            <td>$d->shipping_address</td>
-                                                            <td><button type='button' class='' data-toggle='modal' data-target='#exampleModal'><img class='pict-proof' src='../../asset/img/pict-proof/$d->proof'></button></td>
                                                             <td>
-                                                                <a href='' class='btn-option'><button type='button' class='btn btn-block btn-xs btn-dark'>Confirm</button></a>
-                                                                <a href='' class='btn-option'><button type='button' class='btn btn-block btn-xs btn-danger'>Delete</button></a>
+                                                                <form method='POST'>
+                                                                    <div class='d-flex optionPayment'>
+                                                                        <input type='hidden' name='transCode' value='$d->transaction_code'>
+                                                                        <button type='submit' name='confirmOrderAdmin' class='btn btn-sm btn-dark'>Confirm</button>
+                                                                        <button type='button' class='btn btn-sm btn-primary detailOrder' data-toggle='modal' data-target='#exampleModalDetail' data-id='$d->transaction_code'>Detail</button>
+                                                                        <a href='delete-payment.php?transCode=$d->transaction_code' class='btn btn-sm btn-danger ml-3'>Delete</a>
+                                                                    </div>
+                                                                </form>
                                                             </td>
                                                         </tr>
                                                     ";
                                                 }
                                             ?>
-                                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+                                                <div class="modal fade" id="exampleModalDetail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog modal-lg" role="document">
                                                         <div class="modal-content">
-                                                            <div class="modal-body modal-proof">
-                                                                <img class='pictureProofModal' src='../../asset/img/pict-proof/<?= $pictureProof ?>'>
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel">Detail Order</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="test">
+                                                                
+                                                                </div>
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <button type="button" class="btn btn-danger w-100" data-dismiss="modal">Close</button>
+                                                                </form>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -305,10 +315,27 @@
     <!-- Close Wrapper -->
 
     <script src="../../asset/js/jquery.js"></script>
+    <script src="../../asset/js/zoomify.js"></script>
     <script src="../../asset/js/bootstrap.bundle.min.js"></script>
     <script src="../../asset/js/thickbox.js"></script>
     <script src="../../asset/js/adminlte.min.js"></script>
     <script src="../../asset/js/bootstrap.min.js"></script>
     <script src="../../asset/js/popper.min.js"></script>
 </body>
+<script>
+    $(document).ready(function() {
+        $(".detailOrder").click(function() {
+            var code =  $(this).attr('data-id');
+            $.ajax({
+                type : 'post',
+                url : '../../config/detailOrderAdmin.php',
+                data : 'code='+ code,
+                success : function(data){
+                    $('.test').html(data);
+                }
+            });
+            console.log(code);
+        });
+    });
+</script>
 </html>

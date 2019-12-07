@@ -4,11 +4,11 @@
         protected $db; //Mprotect dalam bahasa inggris yaitu melindungi $db
         function __construct(){ //Membuat function 
             $driver     = "mysql"; 
-            $host       = "localhost";
-            $dbname     = "db_project1";
+            $host       = "sql213.ezyro.com";
+            $dbname     = "ezyro_24858096_db_project1";
             $charset    = "utf8mb4";
-            $user       = "root";
-            $password   = "";
+            $user       = "ezyro_24858096";
+            $password   = "gxc5vluu03u5m0";
             $option     = NULL;
 
             $dsn        = "${driver}:host=${host};dbname=${dbname};charset=${charset}";
@@ -167,41 +167,6 @@
                 }
             }
         }
-        public function accPayment($transCode){
-            date_default_timezone_set('Asia/Jakarta');
-            $dateNow = date("d F Y H:i:s");
-            $queryGoods = "SELECT * FROM tbl_order WHERE transaction_code=:transCode ";
-            $statement1 = $this->db->prepare($queryGoods);
-            $statement1->execute(array(':transCode'=>$transCode));
-            while($d = $statement1->fetch(PDO::FETCH_OBJ)){
-                $transCodeNew = $d->transaction_code;
-                $userCode = $d->user_code;
-                $goodsCode = $d->goods_code;
-                $goodsName = $d->goods_name;
-                $lots = $d->lots;
-                $price = $d->price;
-                $note = $d->note;
-                $shippingAddress = $d->shipping_address;
-                
-                $queryInsert = "INSERT INTO tbl_transaction (transaction_code,user_code,goods_code,goods_name,lots,price,note,shipping_address,transaction_date)
-                VALUES (:transCode,:userCode,:goodsCode,:goodsName,:lots,:price,:note,:shippingAddress,:dateNow)";
-                $statement = $this->db->prepare($queryInsert);
-                $statement->execute(array(':transCode'=>$transCodeNew,':userCode'=>$userCode,':goodsCode'=>$goodsCode,':goodsName'=>$goodsName,':lots'=>$lots,
-                ':price'=>$price,':note'=>$note,':shippingAddress'=>$shippingAddress,':dateNow'=>$dateNow));
-            }
-            if(!$statement){
-                return "gagal";
-            }else{
-                $queryDelete = "DELETE FROM tbl_order WHERE transaction_code=:transCode";
-                $nextStatement = $this->db->prepare($queryDelete);
-                $nextStatement->execute(array(':transCode'=>$transCode));
-                if($nextStatement){
-                    return "sukses";
-                }else{
-                    return "gagal";
-                }
-            }
-        }
         public function dataUser(){
             $sql = "SELECT * FROM tbl_user";
             $stmt = $this->db->prepare($sql);
@@ -230,31 +195,10 @@
                 return $stmt;
             }
         }
-        public function dataTransaction(){
-            $sql = "SELECT * FROM tbl_transaction";
-            $stmt = $this->db->prepare($sql);
-            if($stmt->execute()){
-                return $stmt;
-            }
-        }
-        public function dataTrans($codeuser){
-            $sql = "SELECT * FROM tbl_transaction WHERE user_code=:codeuser GROUP BY transaction_code";
-            $stmt = $this->db->prepare($sql);
-            if($stmt->execute(array(':codeuser'=>$codeuser))){
-                return $stmt;
-            }
-        }
         public function orderDataDetail($codeuser){
-            $sql = "SELECT * FROM tbl_order WHERE user_code=:codeuser GROUP BY transaction_code";
+            $sql = "SELECT * FROM tbl_order WHERE user_code=:codeuser";
             $stmt = $this->db->prepare($sql);
             if($stmt->execute(array(':codeuser'=>$codeuser))){
-                return $stmt;
-            }
-        }
-        public function orderDataTransUser($code){
-            $sql = "SELECT * FROM tbl_order WHERE transaction_code=:code";
-            $stmt = $this->db->prepare($sql);
-            if($stmt->execute(array(':code'=>$code))){
                 return $stmt;
             }
         }
@@ -273,16 +217,6 @@
             $stmt = $this->db->prepare($sql);
             if($stmt->execute()){
                 return $stmt;
-            }
-        }
-        public function confirmGoods($id,$setConfirm){
-            $sql = "UPDATE tbl_transaction SET confirm=:setConfirm WHERE id=:id";
-            $statement = $this->db->prepare($sql);
-            $statement->execute(array(':id'=>$id, ':setConfirm'=>$setConfirm));
-            if(!$statement){
-                return "gagal";
-            }else{
-                return "sukses";
             }
         }
     }

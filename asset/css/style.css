@@ -111,11 +111,13 @@ input[type=number]{-moz-appearance: textfield;}
 /* User Page Admin */
 .content-user h3{text-align: center;font-weight: bold;text-transform: uppercase;}
 .btn-option{margin: 0.1px;}
-.pict-proof{width: 70px;}
+.imgProofAdmin{width: 70px;}
 .modal-proof{margin: auto;}
-.pictureProofModal{width: 450px;}                                                                <img class='pictureProofModal' src='../../asset/img/pict-proof/<?= $pictureProof ?>'>
-
+.pictureProofModal{width: 450px;}
+.optionPayment button{margin:0px 20px;}
 
 /* Inventory Page Admin */
 .content-inventory h3{text-align: center;font-weight: bold;text-transform: uppercase;}
 .goods-pict-adm{width: 200px;}
+
+/* Zoomify */

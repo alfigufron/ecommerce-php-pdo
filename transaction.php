@@ -2,6 +2,15 @@
     require ('config.php');
     $def = new project1();
     $get = $def->getDB();
+
+    if(isset($_POST['confirm'])){
+        $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_STRING);
+        $setConfirm = "Barang sudah sampai";
+        $add = $def->confirmGoods($id,$setConfirm);
+        if($add == "sukses"){
+            echo "<script>alert('Konfirmasi berhasil')</script>";
+        }
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -133,7 +142,7 @@
     </nav>
 
     <div class="content-cart text-center">
-        <h2>Payments</h2>
+        <h2>Transaction</h2>
         <?php if(empty($_SESSION['code'])) { ?>
             <div class="empty-cart">
             <h4>You must login first!</h4>
@@ -142,7 +151,7 @@
         <?php } ?>
 
         <?php if(isset($_SESSION['code'])) {
-            $dataorder = $def->orderDataDetail($codeuser);
+            $dataorder = $def->dataTrans($codeuser);
             $result = $dataorder->fetch(PDO::FETCH_ASSOC);
             if(empty($result)){
                 echo
@@ -158,57 +167,57 @@
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">Transaction Code</th>
-                        <th scope="col">Address</th>
-                        <th scope="col">Proof</th>
-                        <th scope="col">Payment</th>
-                        <th scope="col">Detail</th>
+                        <th scope="col">User Name</th>
+                        <th scope="col">Goods Name</th>
+                        <th scope="col">Lots</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Note</th>
+                        <th scope="col">Shipping Address</th>
+                        <th scope="col">Confirm</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php
-                        $dataorder = $def->orderDataDetail($codeuser);
-                        while($d = $dataorder->fetch(PDO::FETCH_OBJ)){
-                    ?>
-                    <tr>
-                        <td><?= $d->transaction_code ?></td>
-                        <td><?= $d->shipping_address ?></td>
-                        <td>
-                            <?php
-                                $data = $d->proof;
-                                if($data == NULL){
-                                    echo
-                                    "
-                                        <button type='button' class='btn btn-primary' data-toggle='modal' data-target='#exampleModal'>
-                                            Payment
-                                        </button>
-                                    ";
-                                }else{
-                                    echo
-                                    "
-                                        <button type='button' class='btn btn-primary' data-toggle='modal' data-target='#exampleModal' disabled>
-                                            Payment
-                                        </button>
-                                    ";
-                                }
-                            ?>
-                        </td>
-                        <td>
-                            <?php
-                                $data = $d->proof;
-                                if($data == NULL){
-                                    echo "Belum ada bukti pembayaran";
-                                }else{
-                                    echo "Menunggu Konfirmasi";
-                                }
-                            ?>
-                        </td>
-                        <td>
-                            <button type='button' class='btn btn-primary detailOrder' data-toggle='modal' data-target='#exampleModalDetail' data-id='<?= $d->transaction_code ?>'>
-                                Detail
-                            </button>
-                        </td>
-                    </tr>
-                    <?php } ?>
+					<?php
+						$dataTrans = $def->dataTransaction();
+						while($d = $dataTrans->fetch(PDO::FETCH_OBJ)){
+							$codeUser = $d->user_code;
+
+                            $dataUser = $def->dataUserDetail($codeUser);
+                            $d1 = $dataUser->fetch(PDO::FETCH_OBJ);
+
+                            $namaUser = $d1->name;
+                            $checkNote = $d->note;
+                            if($checkNote == NULL){
+                                $note = "Tidak ada catatan";
+                            }else{
+                                $note = $d->note;
+                            }
+
+                            $checkConfirm = $d->confirm;
+                            if($checkConfirm == NULL){
+                                $confirm = "
+                                    <form method='POST'>
+                                        <input type='hidden' name='id' value='$d->id'>
+                                        <button type='submit' name='confirm' class='btn btn-primary'>Confirm</button>
+                                    </form>
+                                ";
+                            }else{
+                                $confirm = "Barang sudah di konfirmasi";
+                            }
+							echo "
+								<tr>
+									<td>$d->transaction_code</td>
+									<td>$namaUser</td>
+									<td>$d->goods_name</td>
+									<td>$d->lots</td>
+									<td>$d->price</td>
+									<td>$note</td>
+									<td>$d->shipping_address</td>
+                                    <td>$confirm</td>
+								</tr>
+							";
+						}
+					?>
                 </tbody>
             </table>
         </div>
@@ -229,7 +238,7 @@
                                 $d = $dataorder->fetch(PDO::FETCH_OBJ);
                                 $transaction_code = $d->transaction_code;
                                 $proofPicture = $_FILES['proof'];
-                                $add = $def->sendProof($transaction_code, $proofPicture);
+                                $add = $def->sendProof($transaction_code, $proofPicture, $random);
                                 if($add == "sukses"){
                                     echo "<script>alert('Berhasil')</script>";
                                 }

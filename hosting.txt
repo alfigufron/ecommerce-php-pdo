@@ -1,0 +1,4 @@
+hostname		: ftp.ezyro.com
+username		: ezyro_24858096
+password		: gxc5vluu03u5m0
+domain		: project-1.ezyro.com

@@ -3,27 +3,26 @@
     $def = new project1();
     $get = $def->getDB();
     $codeuser = $_SESSION['code'];
-    function ngacak($digit){
-        $karakter = '1234567890';
-        $string = '';
-        for($i=0; $i<$digit; $i++)
-        {
-            $post = rand(0, strlen($karakter)-1);
-            $string .= $karakter{$post};
-        };
-        return $string;
-    };
-    $transactionCode = ngacak(14);
-
+    
     if(isset($_POST['order'])){
-        $transCode = $_POST['input_transactionCode'];
+        function ngacak($digit){
+            $karakter = '1234567890';
+            $string = '';
+            for($i=0; $i<$digit; $i++)
+            {
+                $post = rand(0, strlen($karakter)-1);
+                $string .= $karakter{$post};
+            };
+            return $string;
+        };
+        $transactionCode = ngacak(8);
         $userCode = $_POST['input_userCode'];
         $goodsCode = $_POST['input_goodsCode'];
         $goodsName = $_POST['input_goodsName'];
         $Lots = $_POST['input_Lots'];
         $Price = $_POST['input_Price'];
-        $Note = $_POST['input_Note'];
         $Address = $_POST['input_Address'];
+        $Note = $_POST['input_Note'];
 
         $sql_addOrder = "INSERT INTO tbl_order(transaction_code, user_code, goods_code, goods_name, lots, price, note, shipping_address) 
         VALUES (:transaction_code, :user_code, :goods_code, :goods_name, :lots, :price, :note, :shipping_address)";
@@ -32,7 +31,7 @@
         $index = 0;
         foreach($userCode as $dataUser){
             $statement_addOrder->bindParam(':transaction_code', $transactionCode);
-            $statement_addOrder->bindParam(':user_code', $dataUser);
+            $statement_addOrder->bindParam(':user_code',   $dataUser);
             $statement_addOrder->bindParam(':goods_code', $goodsCode[$index]);
             $statement_addOrder->bindParam(':goods_name', $goodsName[$index]);
             $statement_addOrder->bindParam(':lots', $Lots[$index]);
@@ -115,6 +114,14 @@
                             </a>
                         </div>
                     </li>
+                    <li class="nav-item">
+                        <div class="nav-menu">
+                            <a class="nav-link d-inline-flex click-page" href="transaction.php">
+                                <img src="asset/img/history.png" width="18" height="18" alt="" class="mr-2">
+                                Transaction
+                            </a>
+                        </div>
+                    </li>
                 </ul>
                 <?php if(empty($_SESSION['code'])) { ?>
                 <!-- Before Log In -->
@@ -160,7 +167,6 @@
                             <img src="asset/img/profile-icon.png" width="20" height="20" alt=""> <?= $d1->name ?>
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="#">Detail Account</a>
                                 <a class="dropdown-item" href="logout.php">Log Out</a>
                             </div>
                         </div>
@@ -284,31 +290,22 @@
                                     $data_user = $statement_user->fetch(PDO::FETCH_OBJ);
                                     $address = $data_user->address;
                                     echo
-                                    "   
-                                        <label>Kode Transaksi</label>
-                                        <input type='text' name='input_transactionCode[]' value='$transactionCode'>
-                                        <label>Kode User</label>
-                                        <input type='text' name='input_userCode[]' value='$codeuser'>
-                                        <label>Kode Barang</label>
-                                        <input type='text' name='input_goodsCode[]' value='$data_cart->codegoods'>
-                                        <label>Nama Barang</label>
-                                        <input type='text' name='input_goodsName[]' value='$data_cart->goodsname'>
-                                        <label>Jumlah Barang</label>
-                                        <input type='text' name='input_Lots[]' value='$data_cart->lots'>
-                                        <label>Harga Barang</label>
-                                        <input type='text' name='input_Price[]' value='$data_cart->price'>
-                                        <label>Catatan</label>
-                                        <input type='text' name='input_Note[]' value='$data_cart->note'>
-                                        <label>Alamat</label>
-                                        <input type='text' name='input_Address[]' value='$address'>
+                                    "
+                                        <input type='hidden' name='input_userCode[]' value='$codeuser'>
+                                        <input type='hidden' name='input_goodsCode[]' value='$data_cart->codegoods'>
+                                        <input type='hidden' name='input_goodsName[]' value='$data_cart->goodsname'>
+                                        <input type='hidden' name='input_Lots[]' value='$data_cart->lots'>
+                                        <input type='hidden' name='input_Price[]' value='$data_cart->price'>
+                                        <input type='hidden' name='input_Note[]' value='$data_cart->note'>
+                                        <input type='hidden' name='input_Address[]' value='$address'>
                                     ";
                                 }
                             ?>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                        <input type="submit" value="Beli" name="order">
+                        <button type="submit" class="btn btn-primary" name="order">Payment</button>
+                        <!-- <input type="submit" value="Beli" name="order"> -->
                         </form>
                     </div>
                 </div>
